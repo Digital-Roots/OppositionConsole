@@ -9,26 +9,57 @@ app.get('/scrape', (req, res)=>{
   let url = req.query.q;
   let parseUrl = new Url(url);
   parseUrl = parseUrl.hostname;
-
   switch(parseUrl){
+
+
     case 'www.washingtonpost.com':
     rp(url)
     .then(function(html){
+
       let scrapeTitle = $('.topper-headline > h1', html).text();
       let scrapeAuthor = $('.author-byline', html).text();
       let scrapePublished = $('.author-timestamp', html).text();
       let scrapeBody = $('#main-content p', html).text();
+
       const output = {title: "", author: "", published: "", body: ""};
+
       output.title = scrapeTitle;
       output.published = scrapePublished;
       output.author = scrapeAuthor;
       output.body = scrapeBody;
+
       res.json(output);
     })
     .catch(function(err){
       console.log(err);
     });
     break;
+
+
+    case 'www.nytimes.com':
+    rp(url)
+    .then(function(html){
+
+      let scrapeTitle = $('header > h1 > span', html).text();
+      let scrapeAuthor = $('.css-16vrk19', html).text();
+      let scrapePublished = $('time', html).text();
+      let scrapeBody = $('.StoryBodyCompanionColumn p', html).text();
+
+      const output = {title: "", author: "", published: "", body: ""};
+
+      output.title = scrapeTitle;
+      output.published = scrapePublished;
+      output.author = scrapeAuthor;
+      output.body = scrapeBody;
+
+      res.json(output);
+    })
+    .catch(function(err){
+      console.log(err);
+    });
+    break;
+
+
     default:
     res.json({
       err: 'No template'
