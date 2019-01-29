@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  .main.container
+    .row(style='')
+      .mx-auto.col-md-6.col-10.bg-white.p-5
+        form(method='POST' action='/download')
+          .formgroup
+            label(for='download') Youtube Downloader
+            input.form-control(type='string' id='URL' placeholder='youtube.com' name='URL')
+          .formgroup
+            label(for='name') File Name 
+            input.form-control(type='string' id='name' placehold='filename' name='name')
+          button.btn.btn-primary(type='submit') Submit
